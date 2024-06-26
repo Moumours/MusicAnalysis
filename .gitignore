@@ -17,3 +17,6 @@ __pycache__/
 
 # Ignore JSON_files directory
 /JSON_files/
+
+# Ignore developpement files
+Idees.txt

@@ -1,15 +1,16 @@
-
-from gen_Spotify import *
-from graphs import *
-
+from gen_Spotify import SpotifyData
+from graphs import Graph
 
 if __name__ == "__main__":
-    sp = set_up_Spotify()
+    spotify_data = SpotifyData()
 
-    if sp:
-        load_Spotify_favorite_song()
+    if spotify_data.sp:
+        spotify_data.get_user_data()
+        spotify_data.load_spotify_favorite_songs()
 
+        graph = Graph(spotify_data)
+        graph.print_data()
+        graph.draw_top_artists(20)
     else:
         print("Failed to set up Spotify API client.")
-
 
