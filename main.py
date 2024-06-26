@@ -9,8 +9,10 @@ if __name__ == "__main__":
         spotify_data.load_spotify_favorite_songs()
 
         graph = Graph(spotify_data)
-        graph.print_data()
-        graph.draw_top_artists(20)
+        # graph.print_data()
+        graph.draw_top_artists(30)
+        # graph.draw_artist_histogram()
     else:
         print("Failed to set up Spotify API client.")
+
 

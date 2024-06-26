@@ -42,8 +42,12 @@ class Graph:
         colors = [random.choice(['#' + format(random.randint(0, 16777215), '06x') for _ in range(6)]) for _ in
                   range(selectednumber)]
 
-        # Create a bar chart with different colors for each bar
+        # Set the font family to Arial Unicode
+        plt.rcParams['font.family'] = 'Arial Unicode MS'
+
+        # Create a bar chart with different colors for each bar and add a grid
         plt.bar(labels, counts, color=colors)
+
         plt.xlabel('Artist')
         plt.ylabel('Number of Songs')
         plt.title(f'Top {selectednumber} Artists by Song Count')
@@ -56,4 +60,56 @@ class Graph:
 
         # Display the histogram
         plt.tight_layout()
+        plt.show()
+
+    def draw_artist_histogram(self):
+        # Compter le nombre de chansons par artiste
+        artist_count = {}
+        for song in self.spotify_data.user_data['favorite_songs']:
+            artist_name = song[1]
+            if artist_name in artist_count:
+                artist_count[artist_name] += 1
+            else:
+                artist_count[artist_name] = 1
+
+        # Compter le nombre d'artistes par nombre de chansons
+        count_artist = {'1': 0, '2': 0, '3': 0,
+                        '4': 0, '5': 0, '6': 0,
+                        '7': 0, '8': 0, '9': 0, '10+': 0}
+        for count in artist_count.values():
+            if count == 1:
+                count_artist['1'] += 1
+            if count == 2:
+                count_artist['2'] += 1
+            if count == 3:
+                count_artist['3'] += 1
+            if count == 4:
+                count_artist['4'] += 1
+            if count == 5:
+                count_artist['5'] += 1
+            if count == 6:
+                count_artist['6'] += 1
+            if count == 7:
+                count_artist['7'] += 1
+            if count == 8:
+                count_artist['8'] += 1
+            if count == 9:
+                count_artist['9'] += 1
+            if count >= 10:
+                count_artist['10+'] += 1
+
+        # Préparer les étiquettes et les hauteurs des barres
+        labels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10+']
+        counts = [count_artist['1'], count_artist['2'], count_artist['3'],
+                  count_artist['4'], count_artist['5'], count_artist['6'],
+                  count_artist['7'], count_artist['8'], count_artist['9'],
+                  count_artist['10+']]
+
+        # Créer un histogramme
+        plt.bar(labels, counts)
+        plt.xlabel('Number of Songs')
+        plt.ylabel('Number of Artists')
+        plt.title('Number of Artists by Song Count')
+
+        # Afficher l'histogramme
         plt.show()
