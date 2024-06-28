@@ -356,3 +356,35 @@ class Graph:
         plt.tight_layout()
         plt.show()
 
+    def draw_histogram_by_release_year(self):
+        # Extract the favorite songs list from the data
+        favorite_songs = self.spotify_data.user_data['favorite_songs']
+
+        # Count the number of songs released in each year
+        release_years_count = {}
+        for song in favorite_songs:
+            release_date = song[5]  # Assuming release_date is at index 5 in the tuple (modify if necessary)
+            year = release_date.split("-")[0]  # Get the year from the release_date
+            if year in release_years_count:
+                release_years_count[year] += 1
+            else:
+                release_years_count[year] = 1
+
+        # Sort the years in ascending order
+        sorted_years = sorted(release_years_count.keys(), key=lambda x: int(x))
+
+        # Prepare the labels and the heights of the bars
+        labels = sorted_years
+        counts = [release_years_count[year] for year in sorted_years]
+
+        # Create the histogram
+        plt.bar(labels, counts)
+        plt.xlabel('Release Year')
+        plt.ylabel('Number of Songs')
+        plt.title('Number of Songs by Release Year')
+
+        # Rotate the x-axis labels for better visibility
+        plt.xticks(rotation=45)
+
+        # Show the histogram
+        plt.show()
