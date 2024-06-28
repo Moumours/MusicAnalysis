@@ -1,0 +1,23 @@
+# Ignore node_modules directory
+node_modules/
+
+# Ignore logs
+logs/
+*.log
+
+# Ignore OS generated files
+.DS_Store
+
+# Ignore Python compiled files
+__pycache__/
+*.pyc
+
+# Ignore environment variables file
+.env
+
+# Ignore JSON_files directory
+/JSON_files/
+
+# Ignore developpement files
+Idees.txt
+Brouillon.txt
