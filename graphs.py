@@ -394,19 +394,26 @@ class Graph:
 
         # Define a function to extract the appropriate time unit from the add_date
         def extract_time_unit(date_str, time_unit):
-            dt = datetime.fromisoformat(date_str.split('T')[0])
+            date_time_parts = date_str.split('T')
+            date_part = date_time_parts[0]
+            time_part = date_time_parts[1]
             if time_unit == "hour":
-                return dt.strftime("%H:00")
-            elif time_unit == "day": # Get the day (year-month-day) for daily grouping
-                return dt.strftime("%Y-%m-%d")
+                hour = time_part.split(':')[0]
+                return f"{hour}:00"
+            elif time_unit == "day":
+                return date_part  # Get the day (year-month-day) for daily grouping
             elif time_unit == "weekday":
+                dt = datetime.fromisoformat(date_part)
                 return dt.strftime("%A")  # Get the weekday name (monday, tuesday, ...) for weekday grouping
             elif time_unit == "week":
+                dt = datetime.fromisoformat(date_part)
                 return dt.strftime("%U")  # Get the week number for weekly grouping
             elif time_unit == "month":
-                return dt.strftime("%m")
+                dt = datetime.fromisoformat(date_part)
+                return dt.strftime("%m")  # Get the month number (01-12) for monthly grouping
             elif time_unit == "year":
-                return dt.strftime("%Y")
+                dt = datetime.fromisoformat(date_part)
+                return dt.strftime("%Y")  # Get the year (YYYY) for yearly grouping
             else:
                 raise ValueError("Invalid time unit. Use 'hour', 'day', 'weekday', 'week', 'month' or 'year'.")
 
@@ -419,7 +426,6 @@ class Graph:
             time_unit_value = extract_time_unit(add_date, time_unit)
             time_units_count[time_unit_value] += 1
 
-        # Prepare the labels and the heights of the bars
         if time_unit == "hour":
             labels = [f"{str(hour).zfill(2)}:00" for hour in range(24)]
             counts = [time_units_count[label] for label in labels]
