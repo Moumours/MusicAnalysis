@@ -388,3 +388,62 @@ class Graph:
 
         # Show the histogram
         plt.show()
+
+    def draw_histogram_by_add_time(self, time_unit):
+        favorite_songs = self.spotify_data.user_data['favorite_songs']
+
+        # Define a function to extract the appropriate time unit from the add_date
+        def extract_time_unit(date_str, time_unit):
+            date_time_parts = date_str.split('T')
+            date_part = date_time_parts[0]
+            time_part = date_time_parts[1]
+            if time_unit == "hour":
+                hour = time_part.split(':')[0]
+                return f"{hour}:00"
+            elif time_unit == "day":
+                return date_part  # Get the day (year-month-day) for daily grouping
+            elif time_unit == "weekday":
+                dt = datetime.fromisoformat(date_part)
+                return dt.strftime("%A")  # Get the weekday name (monday, tuesday, ...) for weekday grouping
+            elif time_unit == "week":
+                dt = datetime.fromisoformat(date_part)
+                return dt.strftime("%U")  # Get the week number for weekly grouping
+            elif time_unit == "month":
+                dt = datetime.fromisoformat(date_part)
+                return dt.strftime("%m")  # Get the month number (01-12) for monthly grouping
+            elif time_unit == "year":
+                dt = datetime.fromisoformat(date_part)
+                return dt.strftime("%Y")  # Get the year (YYYY) for yearly grouping
+            else:
+                raise ValueError("Invalid time unit. Use 'hour', 'day', 'weekday', 'week', 'month' or 'year'.")
+
+        # Initialize the count for each time unit
+        time_units_count = defaultdict(int)
+
+        # Count the number of songs added in each time unit
+        for song in favorite_songs:
+            add_date = song[7]
+            time_unit_value = extract_time_unit(add_date, time_unit)
+            time_units_count[time_unit_value] += 1
+
+        if time_unit == "hour":
+            labels = [f"{str(hour).zfill(2)}:00" for hour in range(24)]
+            counts = [time_units_count[label] for label in labels]
+        elif time_unit == "weekday":
+            labels = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+            counts = [time_units_count[label] for label in labels]
+        else:
+            sorted_time_units = sorted(time_units_count.keys())
+            labels = [f"{time_unit_value}" for time_unit_value in sorted_time_units]
+            counts = [time_units_count[time_unit_value] for time_unit_value in sorted_time_units]
+
+        # Create the histogram
+        plt.bar(labels, counts)
+        plt.xlabel(f'Add Time ({time_unit.capitalize()})')
+        plt.ylabel('Number of Songs')
+        plt.title(f'Number of Songs Added by {time_unit.capitalize()}')
+
+        # Show the histogram
+        plt.xticks(rotation=45)  # Rotate x-axis labels for better visibility
+        plt.tight_layout()  # Adjust layout for better fit
+        plt.show()
