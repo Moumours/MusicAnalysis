@@ -18,7 +18,7 @@ if __name__ == "__main__":
         # graph.display_artists_by_country("US")
         # graph.draw_artists_pie_chart_by_country("Unknown")
         # graph.draw_histogram_by_release_year()
-        graph.draw_histogram_by_add_time("week")
+        graph.draw_histogram_by_add_time("weekday")
 
     else:
         print("Failed to set up Spotify API client.")

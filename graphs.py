@@ -423,6 +423,9 @@ class Graph:
         if time_unit == "hour":
             labels = [f"{str(hour).zfill(2)}:00" for hour in range(24)]
             counts = [time_units_count[label] for label in labels]
+        elif time_unit == "weekday":
+            labels = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+            counts = [time_units_count[label] for label in labels]
         else:
             sorted_time_units = sorted(time_units_count.keys())
             labels = [f"{time_unit_value}" for time_unit_value in sorted_time_units]
