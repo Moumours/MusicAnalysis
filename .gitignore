@@ -14,6 +14,7 @@ __pycache__/
 
 # Ignore environment variables file
 .env
+.cache
 
 # Ignore JSON_files directory
 /JSON_files/
